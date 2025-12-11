@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Adv. Dharmendra Singh | Best Criminal & Civil Lawyer Kanpur</title>
+    
+    <!-- Premium Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        /* --- 1. ROOT VARIABLES --- */
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-glow: #F9E076;
+            --gold-dark: #AA8C2C;
+            --black-bg: #050505;
+            --card-bg: #101010;
+            --text-white: #ffffff;
+            --text-gray: #bbbbbb;
+            --font-heading: 'Cinzel', serif;
+            --font-sub: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--black-bg);
+            color: var(--text-white);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 3. LOADER --- */
+        #loader {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: #000; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .gavel-anim { font-size: 4rem; color: var(--gold-primary); animation: gavel 1s infinite alternate; }
+        @keyframes gavel { from { transform: rotate(-20deg); } to { transform: rotate(20deg); } }
+
+        /* --- KNOWLEDGE BANK ACCORDION --- */
+        .accordion-item { background: #1a1a1a; margin-bottom: 10px; border-left: 3px solid var(--gold-primary); transition: 0.3s; }
+        .accordion-header { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .accordion-header h4 { color: #fff; font-size: 1.1rem; }
+        .accordion-body { padding: 0 15px 15px; display: none; color: #ccc; font-size: 0.95rem; border-top: 1px solid #333; padding-top: 10px; }
+        .accordion-item.active .accordion-body { display: block; }
+        .accordion-item.active .accordion-header h4 { color: var(--gold-primary); }
+
+/* --- 2. ADVANCED ANIMATIONS --- */
+        @keyframes border-flow {
+            0% { border-color: var(--gold-dark); box-shadow: 0 0 5px var(--gold-dark); }
+            50% { border-color: var(--gold-glow); box-shadow: 0 0 20px var(--gold-primary); }
+            100% { border-color: var(--gold-dark); box-shadow: 0 0 5px var(--gold-dark); }
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        @keyframes pulse-gold-btn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        @keyframes float-text {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 3. HEADER & NAV (FIXED ALIGNMENT) --- */
+        .marquee-container {
+    background: linear-gradient(90deg, #d4af37, #f7e27c, #d4af37);
+    color: #000;
+    padding: 6px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1002;
+    font-weight: bold;
+    font-size: 0.85rem;
+    border-bottom: 2px solid #000;
+    animation: gold-glow 3s infinite alternate;
+}
+
+@keyframes gold-glow {
+    0% { box-shadow: 0 0 5px #d4af37; }
+    100% { box-shadow: 0 0 18px #f7e27c; }
+}
+        .marquee { white-space: nowrap; overflow: hidden; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: scroll 20s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        nav {
+            position: fixed; top: 30px; width: 100%; z-index: 1000;
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+            padding: 10px 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-family: var(--font-heading); color: var(--gold-primary);
+            font-size: 1.1rem; /* Adjusted for mobile */
+            display: flex; flex-direction: column; line-height: 1.1;
+        }
+        .logo span { font-size: 0.7rem; color: #fff; letter-spacing: 1px; }
+        
+        .consult-btn {
+            background: linear-gradient(135deg, #D4AF37, #F9E076, #D4AF37);
+            color: #000; font-weight: 800; text-decoration: none;
+            padding: 8px 12px; border-radius: 5px; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            border: 1px solid #fff; white-space: nowrap;
+        }
+
+        /* --- 4. HERO POSTER (FULL VISIBILITY) --- */
+        .hero-section {
+    margin-top: 80px;
+    width: 100%;
+    position: relative;
+    border-bottom: 5px solid var(--gold-primary);
+    animation: fadeSlide 1.2s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeSlide {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+        /* Using IMG tag instead of background ensures full visibility on mobile */
+        .poster-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 3px solid var(--gold-primary);
+    box-shadow: 0 0 25px rgba(212,175,55,0.4);
+    animation: imagePop 1.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes imagePop {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+        
+        .hero-text-overlay {
+            padding: 40px 20px; text-align: center; background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+        }
+        .hero-text-overlay h1 {
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    background: -webkit-linear-gradient(#f7e27c, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    opacity: 0;
+    animation: titleShow 1.8s ease forwards;
+    letter-spacing: 3px;
+}
+
+@keyframes titleShow {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+        .hero-text-overlay p { color: #ddd; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- 5. PROFILE & IMAGES (FACE FIX) --- */
+        .section { padding: 60px 20px; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-family: var(--font-heading); color: var(--gold-primary); font-size: 2rem; margin-bottom: 10px; }
+        .section-header .line { width: 80px; height: 3px; background: var(--gold-primary); margin: 0 auto; }
+
+        .profile-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;
+            max-width: 1100px; margin: 0 auto;
+        }
+        .profile-card {
+            background: var(--card-bg); border: 2px solid var(--gold-dark);
+            border-radius: 15px; overflow: hidden; max-width: 350px; width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            animation: border-flow 4s infinite;
+        }
+        .profile-img {
+            width: 100%; height: 380px; 
+            object-fit: cover; 
+            object-position: top center; /* CRITICAL FIX: Shows Face */
+        }
+        .profile-info { padding: 20px; text-align: center; }
+        .profile-info h3 { color: var(--gold-primary); font-family: var(--font-sub); font-size: 1.8rem; }
+        .profile-info p { color: #aaa; margin-top: 10px; font-size: 0.95rem; }
+
+        /* --- 6. SERVICES & LAWS --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .law-card {
+            background: #111; padding: 0; border: 1px solid #333; border-radius: 10px; overflow: hidden;
+            transition: 0.3s; position: relative;
+        }
+        .law-card-img {
+            width: 100%; height: 180px; object-fit: cover;
+        }
+        .law-content { padding: 20px; }
+        .law-card h3 { color: var(--gold-primary); font-family: var(--font-sub); margin-bottom: 10px; }
+        .law-card p { font-size: 0.9rem; color: #bbb; margin-bottom: 15px; }
+        .detail-btn {
+            background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-primary);
+            padding: 8px 20px; width: 100%; cursor: pointer; transition: 0.3s;
+        }
+        .detail-btn:hover { background: var(--gold-primary); color: #000; }
+
+        /* --- 7. GALLERY (DOCUMENTS FIX) --- */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px;
+        }
+        .gallery-item {
+            background: #222; border: 1px solid var(--gold-primary); border-radius: 8px;
+            height: 220px; overflow: hidden; padding: 5px;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: contain; /* CRITICAL FIX: Shows full document/card */
+            transition: transform 0.3s;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        /* --- 8. REVIEWS & WHY US --- */
+        .review-box {
+            background: #151515; padding: 20px; border-left: 4px solid var(--gold-primary);
+            margin-bottom: 20px; border-radius: 5px;
+        }
+        .stars { color: #FFD700; margin-bottom: 5px; }
+        
+        .why-us-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; }
+        .why-item { background: #222; padding: 15px; text-align: center; border-radius: 8px; border: 1px solid #333; }
+        .why-item i { font-size: 2rem; color: var(--gold-primary); margin-bottom: 10px; }
+        .why-item h4 { color: #fff; font-size: 0.9rem; }
+
+        /* --- 9. CONTACT FORM --- */
+        .contact-section { background: url('https://www.transparenttextures.com/patterns/dark-matter.png'); }
+        .form-wrapper {
+            max-width: 600px; margin: 0 auto; background: rgba(20,20,20,0.9);
+            padding: 30px; border: 1px solid var(--gold-primary); border-radius: 10px;
+        }
+        .inp { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #444; color: white; border-radius: 4px; }
+        .inp:focus { border-color: var(--gold-primary); outline: none; }
+        
+        .submit-btn {
+            width: 100%; padding: 15px; background: var(--gold-primary); border: none;
+            color: black; font-weight: bold; font-size: 1rem; cursor: pointer;
+            animation: pulse-gold-btn 2s infinite; border-radius: 5px;
+        }
+
+        /* --- 10. FAB & FOOTER --- */
+        .fab-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 2000; }
+        .fab {
+            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.6rem; text-decoration: none;
+        }
+        .fab-wa { background: #25D366; animation: pulse-btn 2s infinite; }
+        .fab-call { background: var(--gold-primary); color: #000; animation: pulse-gold-btn 2s infinite; animation-delay: 1s; }
+
+        footer { background: #000; padding: 40px 20px; text-align: center; border-top: 2px solid var(--gold-primary); }
+        
+        /* HIGHLIGHTED ADMIN BUTTON */
+        .admin-trigger { 
+            font-size: 0.9rem; font-weight: bold; color: #000; 
+            background: var(--gold-primary); padding: 10px 20px; 
+            border-radius: 5px; display: inline-block; margin-top: 20px; cursor: pointer;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* --- 11. MODAL --- */
+        .modal {
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; padding: 10px;
+        }
+        /* Default Modal */
+        .modal-content {
+            background: #1a1a1a; padding: 25px; border: 2px solid var(--gold-primary);
+            border-radius: 10px; max-width: 500px; width: 100%; position: relative;
+            max-height: 80vh; overflow-y: auto; text-align: center;
+        }
+        
+        /* ADMIN SPECIFIC STYLES (For Scrolling & Compact View) */
+        #adminContent {
+            max-width: 600px; width: 100%; display: flex; flex-direction: column; height: 90vh;
+        }
+        /* Message List Container - SCROLLABLE */
+        #msgList {
+            flex: 1;                /* Takes remaining space */
+            overflow-y: auto;       /* Forces Scrollbar */
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll on mobile */
+        }
+        /* Compact Message Card */
+        .msg-card {
+            background: #222; padding: 12px; margin-bottom: 12px;
+            border-left: 3px solid var(--gold-primary); border-radius: 5px; text-align: left;
+        }
+        .close { position: absolute; top: 10px; right: 15px; font-size: 2rem; color: #fff; cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Loader -->
+<div id="loader">
+    <i class="fas fa-gavel gavel-anim"></i>
+    <h3 style="color:white; margin-top:20px; letter-spacing:3px;">LOADING JUSTICE...</h3>
+</div>
+
+<!-- Top Marquee -->
+    <div class="marquee-container">
+        <div class="marquee">
+            <span>|| Adv. Dharmendra Singh - Chamber S-18, New Building Civil Court Compound, Kanpur || Specialist in Bail, Divorce, Property Disputes || Call: +91 9389776928 || 24/7 Support for Urgent Criminal Matters ||</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-balance-scale"></i> ADV. DHARMENDRA
+            <span>KANPUR COURT LEGAL CONSULTANT</span>
+        </div>
+        <a href="#contact" class="consult-btn">Book Consultation</a>
+    </nav>
+
+    <!-- HERO SECTION (POSTER IMAGE DIRECTLY) -->
+    <div class="hero-section">
+        <!-- Using IMG tag ensures the poster is never cropped and shows 100% -->
+        <img src="https://raw.githubusercontent.com/shdjududu/Website/main/Picsart_25-12-08_23-26-19-456.jpg" alt="Advocate Poster" class="poster-img">
+        
+        <div class="hero-text-overlay reveal">
+            <h1>"Nyay Sabke Liye"</h1>
+            <p>Fighting for Justice in Kanpur Civil & Sessions Court with Integrity and Passion.</p>
+        </div>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <section class="section">
+        <div class="section-header reveal">
+            <h2>The Advocate</h2>
+            <div class="line"></div>
+        </div>
+        
+        <div class="profile-container">
+            <!-- Dharmendra Bhaiya (Face Fixed) -->
+            <div class="profile-card reveal">
+                <img src="https://raw.githubusercontent.com/shdjududu/Website/main/IMG-20251208-WA0004.jpg" alt="Dharmendra Singh" class="profile-img">
+                <div class="profile-info">
+                    <h3>Dharmendra Singh</h3>
+                    <p>Senior Legal Consultant</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Shanti Nagar, Chaubepur</p>
+                </div>
+            </div>
+
+            <!-- Dharmendra Bhaiya – New Photo 1 -->
+<div class="profile-card reveal">
+    <img src="https://raw.githubusercontent.com/shdjududu/Dharmendra_Bhaiya/main/IMG-20251210-WA0001.jpg" 
+         alt="Dharmendra Singh New Photo 1" class="profile-img">
+
+    <div class="profile-info">
+        <h3>Dedicated to Justice</h3>
+        <p>Strong representation in Civil & Criminal matters with a proven track record.</p>
+    </div>
+</div>
+
+<!-- Dharmendra Bhaiya – New Photo 2 -->
+<div class="profile-card reveal">
+    <img src="https://raw.githubusercontent.com/shdjududu/Dharmendra_Bhaiya/main/IMG-20251210-WA0002.jpg" 
+         alt="Dharmendra Singh New Photo 2" class="profile-img">
+
+    <div class="profile-info">
+        <h3>Trusted by Thousands</h3>
+        <p>Adv. Dharmendra Singh is known for honesty, clarity, and powerful arguments in court.</p>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section" style="background: #0a0a0a;">
+        <div class="section-header reveal">
+            <h2>Why Choose Us?</h2>
+            <div class="line"></div>
+        </div>
+        <div class="why-us-grid reveal">
+            <div class="why-item">
+                <i class="fas fa-gavel"></i>
+                <h4>100% Success Focus</h4>
+            </div>
+            <div class="why-item">
+                <i class="fas fa-user-shield"></i>
+                <h4>Confidentiality</h4>
+            </div>
+            <div class="why-item">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h4>Affordable Fees</h4>
+            </div>
+            <div class="why-item">
+                <i class="fas fa-clock"></i>
+                <h4>Fast Relief</h4>
+            </div>
+            <div class="why-item">
+    <i class="fas fa-scale-balanced"></i>
+    <h4>Strong Court Representation</h4>
+</div>
+
+<div class="why-item">
+    <i class="fas fa-people-group"></i>
+    <h4>Client-Centered Approach</h4>
+</div>
+
+<div class="why-item">
+    <i class="fas fa-lightbulb"></i>
+    <h4>Strategic Legal Planning</h4>
+</div>
+<div class="why-item">
+    <i class="fas fa-file-signature"></i>
+    <h4>Clear & Transparent Legal Advice</h4>
+</div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section">
+        <div class="section-header reveal">
+            <h2>Legal Expertise</h2>
+            <div class="line"></div>
+        </div>
+        <div class="services-grid">
+            <!-- 1. Criminal Law -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Criminal+Law'" class="law-card-img" alt="Criminal Law">
+                <div class="law-content">
+                    <h3>Criminal Law</h3>
+                    <p>Bail, Murder (302), Theft, Cheating (420), and all IPC matters handled efficiently.</p>
+                    <button class="detail-btn" onclick="openModal('Criminal Law', 'We specialize in securing Anticipatory and Regular Bail. We fight cases under IPC 302, 307, 376, 498A, and NDPS Act with strong arguments in District and High Court.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 2. Matrimonial Disputes -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Family+Divorce+Law'" class="law-card-img" alt="Matrimonial Law">
+                <div class="law-content">
+                    <h3>Matrimonial Disputes</h3>
+                    <p>Expert in Mutual Divorce, Alimony, Child Custody and Domestic Violence (DV) cases.</p>
+                    <button class="detail-btn" onclick="openModal('Family Law', 'Divorce is painful, but the legal process shouldnt be. We handle 13B Mutual Consent Divorce, Section 9 (RCR), and Maintenance (125 CrPC) cases to get you justice.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 3. Property & Civil -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Property+Law'" class="law-card-img" alt="Property Law">
+                <div class="law-content">
+                    <h3>Property & Civil</h3>
+                    <p>Land disputes, Registry, Will Probate, and Cheque Bounce (138 NI Act).</p>
+                    <button class="detail-btn" onclick="openModal('Civil Law', 'Protect your property. We handle Injunction Suits, Partition Suits, Tenant Eviction, and Specific Performance contracts along with Cheque Bounce matters.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 4. Accident Claims (MACT) -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1555353540-64580b51c258?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Accident+MACT'" class="law-card-img" alt="Accident Claims">
+                <div class="law-content">
+                    <h3>Accident Claims (MACT)</h3>
+                    <p>Get maximum compensation for road accidents, injury, or vehicle damage from insurance.</p>
+                    <button class="detail-btn" onclick="openModal('MACT Claims', 'We fight against Insurance companies to get you the claim amount you deserve for medical bills, disability, or death in road accidents.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 5. Cyber Crime -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Cyber+Crime'" class="law-card-img" alt="Cyber Crime">
+                <div class="law-content">
+                    <h3>Cyber Crime</h3>
+                    <p>Legal defense for Online Frauds, Hacking, Data Theft, and IT Act related offenses.</p>
+                    <button class="detail-btn" onclick="openModal('Cyber Laws', 'Victim of online fraud or falsely accused of cyber crime? We handle cases related to Social Media harassment, Bank Frauds, and Data theft.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 6. Writ Petitions -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&w=600&q=80" onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=High+Court+Writ'" class="law-card-img" alt="High Court">
+                <div class="law-content">
+                    <h3>Writ Petitions</h3>
+                    <p>High Court matters for Quashing of FIR, Stay Orders, and protection of fundamental rights.</p>
+                    <button class="detail-btn" onclick="openModal('Writ Jurisdiction', 'Direct approach to High Court (Art 226) for Quashing FIRs, demanding action from Police, or challenging illegal government orders.')">View Details</button>
+                </div>
+            </div>
+        
+
+            <!-- 2. Matrimonial Disputes (Fixed Image) -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Family+Divorce+Law'"
+                     class="law-card-img" alt="Matrimonial Law">
+                <div class="law-content">
+                    <h3>Matrimonial Disputes</h3>
+                    <p>Expert in Mutual Divorce, Alimony, Child Custody and Domestic Violence (DV) cases.</p>
+                    <button class="detail-btn" onclick="openModal('Family Law', 'Divorce is painful, but the legal process shouldnt be. We handle 13B Mutual Consent Divorce, Section 9 (RCR), and Maintenance (125 CrPC) cases to get you justice.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 3. Property & Civil -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Property+Law'"
+                     class="law-card-img" alt="Property Law">
+                <div class="law-content">
+                    <h3>Property & Civil</h3>
+                    <p>Land disputes, Registry, Will Probate, and Cheque Bounce (138 NI Act).</p>
+                    <button class="detail-btn" onclick="openModal('Civil Law', 'Protect your property. We handle Injunction Suits, Partition Suits, Tenant Eviction, and Specific Performance contracts along with Cheque Bounce matters.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 4. Accident Claims (New) -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1555353540-64580b51c258?auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Accident+MACT'"
+                     class="law-card-img" alt="Accident Claims">
+                <div class="law-content">
+                    <h3>Accident Claims (MACT)</h3>
+                    <p>Get maximum compensation for road accidents, injury, or vehicle damage from insurance.</p>
+                    <button class="detail-btn" onclick="openModal('MACT Claims', 'We fight against Insurance companies to get you the claim amount you deserve for medical bills, disability, or death in road accidents.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 5. Cyber Crime (New) -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=Cyber+Crime'"
+                     class="law-card-img" alt="Cyber Crime">
+                <div class="law-content">
+                    <h3>Cyber Crime</h3>
+                    <p>Legal defense for Online Frauds, Hacking, Data Theft, and IT Act related offenses.</p>
+                    <button class="detail-btn" onclick="openModal('Cyber Laws', 'Victim of online fraud or falsely accused of cyber crime? We handle cases related to Social Media harassment, Bank Frauds, and Data theft.')">View Details</button>
+                </div>
+            </div>
+
+            <!-- 6. Writ Petitions (New) -->
+            <div class="law-card reveal">
+                <img src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://via.placeholder.com/600x400/111/D4AF37?text=High+Court+Writ'"
+                     class="law-card-img" alt="High Court">
+                <div class="law-content">
+                    <h3>Writ Petitions</h3>
+                    <p>High Court matters for Quashing of FIR, Stay Orders, and protection of fundamental rights.</p>
+                    <button class="detail-btn" onclick="openModal('Writ Jurisdiction', 'Direct approach to High Court (Art 226) for Quashing FIRs, demanding action from Police, or challenging illegal government orders.')">View Details</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GALLERY (DOCS FULL VIEW) -->
+    <section class="section" style="background: #080808;">
+        <div class="section-header reveal">
+            <h2>Official Gallery</h2>
+            <div class="line"></div>
+        </div>
+        <div class="gallery-grid">
+            <!-- Visiting Card (Full View) -->
+            <div class="gallery-item reveal">
+                <img src="https://raw.githubusercontent.com/shdjududu/Website/main/IMG-20251208-WA0006.jpg" alt="Visiting Card">
+            </div>
+            <!-- Poster (Full View) -->
+            <div class="gallery-item reveal">
+                <img src="https://raw.githubusercontent.com/shdjududu/Website/main/Picsart_25-12-08_23-26-19-456.jpg" alt="Poster Small">
+            </div>
+            <!-- Stock Legal Images -->
+            <div class="gallery-item reveal">
+                <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Books">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Court">
+            </div>
+        </div>
+    </section>
+
+    <!-- Knowledge Bank -->
+    <section class="section knowledge-section">
+        <div class="section-header reveal">
+            <h2>Legal Knowledge Bank</h2>
+            <div class="line"></div>
+            <p style="color:#aaa; margin-top:10px; text-align:center;">Know Your Rights</p>
+        </div>
+        <div class="law-accordions reveal" style="max-width: 900px; margin: 0 auto;">
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 498A (IPC) - Cruelty by Husband</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Whoever, being the husband or the relative of the husband of a woman, subjects such woman to cruelty shall be punished with imprisonment for a term which may extend to three years and shall also be liable to fine. This is often used in dowry harassment cases.</div>
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 138 (NI Act) - Cheque Bounce</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">If a cheque issued for the discharge of debt is returned by the bank unpaid, it is a criminal offense punishable with imprisonment up to two years or with fine which may extend to twice the amount of the cheque, or with both.</div>
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Anticipatory Bail (Sec 438 CrPC)</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Any person who has reason to believe that they may be arrested on accusation of having committed a non-bailable offense may apply to the High Court or the Court of Session for a direction that in the event of such arrest, they shall be released on bail.</div>
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 302 (IPC) - Murder</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Whoever commits murder shall be punished with death or imprisonment for life, and shall also be liable to fine. This is the most serious offense in the Indian Penal Code.</div>
+            </div>
+
+            <!-- NEW SECTIONS ADDED -->
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 420 (IPC) - Cheating</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Cheating and dishonestly inducing delivery of property. If someone deceives you to take money or property, this section applies. Punishment can extend up to 7 years.</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 13B (HMA) - Mutual Divorce</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Divorce by Mutual Consent. When both husband and wife agree to separate peacefully, this is the fastest way to get a divorce (usually takes 6 months).</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>NDPS Act - Drug Cases</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">The Narcotic Drugs and Psychotropic Substances Act. Strict laws against possession, sale, or consumption of drugs. Bail is difficult, requiring strong legal representation.</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 376 (IPC) - Rape</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Punishment for sexual assault. The law is very strict regarding crimes against women, with punishments ranging from 10 years to life imprisonment or death.</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 323 (IPC) - Causing Hurt</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Punishment for voluntarily causing hurt. Common in fights or physical altercations. It is a bailable offense but can be clubbed with serious charges.</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>Section 506 (IPC) - Criminal Intimidation</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Punishment for criminal intimidation. If someone threatens to cause death, grievous hurt, or destruction of property, this section is applicable.</div>
+            </div>
+
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header"><h4>POCSO Act - Child Protection</h4><i class="fas fa-chevron-down"></i></div>
+                <div class="accordion-body">Protection of Children from Sexual Offences. A special act to protect minors (under 18) from sexual assault and harassment. Cases are tried in special fast-track courts.</div>
+            </div>
+        </div>
+    </section>
+
+<!-- REVIEWS -->
+    <section class="section">
+        <div class="section-header reveal">
+            <h2>Client Satisfaction</h2>
+            <div class="line"></div>
+        </div>
+        <div class="reveal">
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Best lawyer in Kanpur for property cases. Very honest advice." - <strong>Rahul Mishra</strong></p>
+            </div>
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Got my bail in 3 days. Dharmendra sir is a savior." - <strong>Ankit Yadav</strong></p>
+            </div>
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Very professional handling of my divorce case." - <strong>S. Gupta</strong></p>
+            </div>
+
+            <!-- NEW RATINGS ADDED -->
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Saved my family from false 498A dowry charges. Arguments were very strong." - <strong>Vikram Singh</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Hamare zameen ka vivad 5 saal se chal raha tha, Dharmendra bhai ne 6 mahine me solve kar diya." - <strong>Mohd. Arif</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Cheque bounce case won. Got my money back with interest. Highly recommended." - <strong>Rajesh Verma</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Got anticipatory bail from High Court when District Court rejected it. A true expert." - <strong>Suresh Chandra</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Police station matter handled perfectly. Saved me from arrest." - <strong>Deepak Kumar</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Very humble person and fees is very reasonable compared to other lawyers in Kanpur." - <strong>Amit Tiwari</strong></p>
+            </div>
+
+            <div class="review-box">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Excellent drafting for my company contracts and legal notices." - <strong>Vikas Malhotra</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact-section">
+        <div class="section-header reveal">
+            <h2>Consult Now</h2>
+            <p style="color:#aaa;">Send a direct message to Chamber S-18</p>
+        </div>
+        <div class="form-wrapper reveal">
+            <form id="contactForm">
+                <input type="text" id="cName" class="inp" placeholder="Your Name" required>
+                <input type="tel" id="cPhone" class="inp" placeholder="Mobile Number" required>
+                <textarea id="cMsg" class="inp" rows="5" placeholder="Describe your legal issue..." required></textarea>
+                <button type="submit" class="submit-btn">SEND REQUEST</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3 style="color:var(--gold-primary); margin-bottom:10px;">Adv. Dharmendra Singh</h3>
+        <p style="color:#666; font-size:0.9rem;">
+            District Court Kanpur Nagar<br>
+            Civil, Criminal & Revenue Matters
+        </p>
+        <span class="admin-trigger" onclick="openAdminModal()">Admin Login</span>
+    </footer>
+
+    <!-- FABs -->
+    <div class="fab-container">
+        <a href="https://wa.me/919389776928" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="tel:+919389776928" class="fab fab-call"><i class="fas fa-phone"></i></a>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Service Detail Modal -->
+    <div id="infoModal" class="modal" onclick="closeModals(event)">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
+            <h2 id="mTitle" style="color:var(--gold-primary); margin-bottom:15px;"></h2>
+            <p id="mDesc" style="color:#ddd; line-height:1.6;"></p>
+            <a href="#contact" onclick="document.getElementById('infoModal').style.display='none'" style="display:inline-block; margin-top:20px; color:var(--gold-primary); border:1px solid var(--gold-primary); padding:10px 20px; text-decoration:none;">Contact Now</a>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content" id="adminContent">
+            <span class="close" onclick="document.getElementById('adminModal').style.display='none'">&times;</span>
+            
+            <!-- Header with Visitors (Hidden until login) -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px;">
+                <h3 style="color:var(--gold-primary);">Admin Dashboard</h3>
+                <div id="visitStats" style="display:none; text-align:right;">
+                    <span style="color:#aaa; font-size:0.7rem;">UNIQUE VISITORS</span><br>
+                    <span id="visitCount" style="color:var(--gold-primary); font-size:1.2rem; font-weight:bold;">0</span>
+                </div>
+            </div>
+
+            <div id="loginView">
+                <input type="email" id="admEmail" class="inp" placeholder="Admin Email">
+                <input type="password" id="admPass" class="inp" placeholder="Password">
+                <button onclick="login()" class="submit-btn">SECURE LOGIN</button>
+            </div>
+
+            <div id="dashView" style="display:none; flex-direction:column; height:100%;">
+                <h4 style="color:#ddd; text-align:left;"><i class="fas fa-envelope"></i> Client Messages</h4>
+                
+                <!-- Scrollable Area -->
+                <div id="msgList">Loading...</div>
+                
+                <button onclick="logout()" class="submit-btn" style="background:#333; color:white; margin-top:10px; flex-shrink:0;">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIG ---
+        /* --- LOADER SCRIPT (FIXED: Max 2 Seconds) --- */
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if(loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display='none', 500);
+        }
+    }, 2500); // EXACT 2.5 seconds
+});
+
+const firebaseConfig = {
+            apiKey: "AIzaSyDeyi1oWi5KV6x2PAg6niNfFaxMpgsOWgo",
+            authDomain: "website-1451d.firebaseapp.com",
+            databaseURL: "https://website-1451d-default-rtdb.firebaseio.com",
+            projectId: "website-1451d",
+            storageBucket: "website-1451d.firebasestorage.app",
+            messagingSenderId: "470301910114",
+            appId: "1:470301910114:web:5c865aee97266019e79d3b"
+        };
+        if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        // --- 1. UNIQUE VISITOR COUNTER ---
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem('visited_adv_site')) {
+                const visitRef = db.ref('website_stats/visits');
+                visitRef.transaction(current_value => {
+                    return (current_value || 0) + 1;
+                });
+                localStorage.setItem('visited_adv_site', 'true');
+            }
+        });
+
+        // --- 2. ANIMATIONS OBSERVER ---
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('active');
+            });
+        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- 3. UI FUNCTIONS ---
+        function openModal(title, desc) {
+            document.getElementById('mTitle').innerText = title;
+            document.getElementById('mDesc').innerText = desc;
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function toggleAccordion(el) {
+            const isActive = el.classList.contains("active");
+            document.querySelectorAll(".accordion-item").forEach(item => item.classList.remove("active"));
+            if(!isActive) el.classList.add("active");
+        }
+
+        function closeModals(e) {
+            if(e.target.classList.contains('modal')) e.target.style.display = 'none';
+        }
+
+        // --- 4. CONTACT FORM ---
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.querySelector('.submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "SENDING...";
+            
+            db.ref('messages').push({
+                name: document.getElementById('cName').value,
+                phone: document.getElementById('cPhone').value,
+                msg: document.getElementById('cMsg').value,
+                date: new Date().toLocaleString()
+            }).then(() => {
+                alert("Message Sent! Adv. Dharmendra Singh will call you.");
+                e.target.reset();
+            }).catch(err => alert("Error"))
+            .finally(() => btn.innerText = originalText);
+        });
+
+        // --- 5. ADMIN PANEL LOGIC (Fixed) ---
+        function openAdminModal() {
+            document.getElementById('adminModal').style.display = 'flex';
+            auth.onAuthStateChanged(user => {
+                if(user) {
+                    document.getElementById('loginView').style.display='none';
+                    document.getElementById('dashView').style.display='flex'; // Flex for layout
+                    document.getElementById('visitStats').style.display='block';
+                    
+                    // Fetch Visitor Count
+                    db.ref('website_stats/visits').on('value', snap => {
+                        document.getElementById('visitCount').innerText = snap.val() || 0;
+                    });
+
+                    loadMsgs();
+                } else {
+                    document.getElementById('loginView').style.display='block';
+                    document.getElementById('dashView').style.display='none';
+                    document.getElementById('visitStats').style.display='none';
+                }
+            });
+        }
+
+        function login() {
+            auth.signInWithEmailAndPassword(
+                document.getElementById('admEmail').value,
+                document.getElementById('admPass').value
+            ).catch(e => alert(e.message));
+        }
+
+        function logout() { auth.signOut(); }
+
+        function deleteMsg(key) {
+            if(confirm("Permanently delete this message?")) {
+                db.ref('messages/' + key).remove();
+            }
+        }
+
+        // --- 6. MESSAGE LOADER (Compact View & Scrolling) ---
+        function loadMsgs() {
+    const list = document.getElementById('msgList');
+
+    db.ref('messages').orderByKey().limitToLast(200).on('value', snap => {
+        let html = "";
+
+        snap.forEach(c => {
+            const m = c.val();
+
+            html =
+            `
+            <div class="msg-card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <strong style="color:var(--gold-primary); font-size:1rem;">${m.name}</strong>
+                    <button onclick="deleteMsg('${c.key}')" style="background:none; border:none; color:#ff4444; cursor:pointer; padding:5px;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+
+                <small style="color:#666;">${m.date}</small>
+                <p style="color:#ddd; margin: 8px 0; font-size:0.9rem;">${m.msg}</p>
+
+                <div style="margin-top:8px;">
+                    <a href="https://wa.me/91${m.phone}" target="_blank"
+                       style="display:inline-block; background:#25D366; color:white; padding:4px 10px; border-radius:3px; 
+                       text-decoration:none; font-size:0.8rem; margin-right:10px;">
+                        <i class="fab fa-whatsapp"></i> Chat
+                    </a>
+
+                    <a href="tel:${m.phone}" 
+                       style="display:inline-block; color:var(--gold-primary); text-decoration:none; font-size:0.8rem;">
+                        <i class="fas fa-phone"></i> Call: ${m.phone}
+                    </a>
+                </div>
+            </div>
+            ` + html;
+        });
+
+        // If no messages
+        list.innerHTML = html || "<p style='color:#777; text-align:center; padding:20px;'>No Messages.</p>";
+    });
+}
+
+
+    </script>
+</body>
+</html>
